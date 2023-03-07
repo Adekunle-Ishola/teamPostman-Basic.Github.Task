@@ -49,12 +49,22 @@
 			]
 		},
 		{
-			"name": "GET ALL ENTRIES",
+			"name": "GET ALL TO DO ENTRIES",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"console.log(jsonData.info.version)\r",
+							"\r",
+							"console.log(jsonData.swagger)\r",
+							"\r",
+							"pm.environment.set(\"entityVersion\", jsonData.info.version);\r",
+							"\r",
+							"pm.environment.set(\"entitySwagger\", jsonData.swagger);\r",
+							"\r",
+							"\r",
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
@@ -112,6 +122,15 @@
 						],
 						"type": "text/javascript"
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
 				}
 			],
 			"protocolProfileBehavior": {
@@ -130,9 +149,13 @@
 					},
 					{
 						"key": "rank",
-						"value": "",
-						"type": "text",
-						"disabled": true
+						"value": "{{entityVersion}}",
+						"type": "text"
+					},
+					{
+						"key": "Swagger",
+						"value": "{{entitySwagger}}",
+						"type": "text"
 					}
 				],
 				"body": {
@@ -140,12 +163,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "https://petstore.swagger.io/v2/swagger.json",
-					"protocol": "https",
+					"raw": "{{baseUrl}}/v2/swagger.json",
 					"host": [
-						"petstore",
-						"swagger",
-						"io"
+						"{{baseUrl}}"
 					],
 					"path": [
 						"v2",
