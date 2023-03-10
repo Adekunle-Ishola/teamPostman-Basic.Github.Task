@@ -302,6 +302,19 @@
 			"item": [
 				{
 					"name": "Delete An Order - using valid book type",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -401,11 +414,10 @@
 							"var jsonData = pm.response.json();\r",
 							"console.log(jsonData)\r",
 							"\r",
-							"console.log(jsonData.swagger)\r",
-							"\r",
-							"console.log(jsonData.host)\r",
-							"console.log(jsonData.tags)\r",
+							"console.log(jsonData.tags[0].description)\r",
 							"console.log(jsonData.info.version)\r",
+							"console.log(jsonData.swagger)\r",
+							"console.log(jsonData.host)\r",
 							"\r",
 							"\r",
 							"\r",
@@ -414,6 +426,8 @@
 							"    \r",
 							"    pm.expect(jsonData.tags[0].description).is.eql(\"Everything about your Pets\");\r",
 							"});\r",
+							"\r",
+							"\r",
 							"\r",
 							"pm.test(\"confirm that the version is 1.0.6\", function () {\r",
 							"    \r",
@@ -429,9 +443,15 @@
 							"pm.test(\"Body matches string\", function () {\r",
 							"    pm.expect(pm.response.text()).to.include(\"2.0\");\r",
 							"\r",
-							"\r",
-							"\r",
 							"});\r",
+							"\r",
+							"pm.test(\"Verify that the host is displayed\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.host).to.eql(\"petstore.swagger.io\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
 							"\r",
 							"/**\r",
 							" * pm.test(\"Body is correct\", function () {\r",
@@ -488,6 +508,212 @@
 					"mode": "raw",
 					"raw": ""
 				},
+				"url": {
+					"raw": "{{baseUrl}}/v2/swagger.json",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v2",
+						"swagger.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Manual Test (200/OK)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code name should have an OK string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/v2/swagger.json",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v2",
+						"swagger.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Manual Test (Body Responses)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code name should have an OK string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"console.log(jsonData)\r",
+							"\r",
+							"console.log(jsonData.tags[0].description)\r",
+							"console.log(jsonData.info.version)\r",
+							"console.log(jsonData.swagger)\r",
+							"console.log(jsonData.host)\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"confirm that Everything about your Pets is present\", function () {\r",
+							"    \r",
+							"    pm.expect(jsonData.tags[0].description).is.eql(\"Everything about your Pets\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"confirm that the version is 1.0.6\", function () {\r",
+							"    \r",
+							"    pm.expect(jsonData.info.version).is.eql(\"1.0.6\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"confirm that the swagger is 2.0\", function () {\r",
+							"    \r",
+							"    pm.expect(jsonData.swagger).to.eql(\"2.0\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect((jsonData.swagger)).to.include(\"2.0\");\r",
+							"\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify that the host is displayed\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.host).to.eql(\"petstore.swagger.io\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/v2/swagger.json",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"v2",
+						"swagger.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Manual Test (Environment)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code name should have an OK string\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"console.log(jsonData)\r",
+							"\r",
+							"console.log(jsonData.tags[0].description)\r",
+							"console.log(jsonData.tags[1].name)\r",
+							"console.log(jsonData.info.version)\r",
+							"console.log(jsonData.swagger)\r",
+							"console.log(jsonData.host)\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"confirm that Everything about your Pets is present\", function () {\r",
+							"    pm.expect(jsonData.tags[0].description).is.eql(\"Everything about your Pets\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"confirm that Store is the name of tags[1]\", function () {\r",
+							"    pm.expect(jsonData.tags[1].name).is.eql(\"store\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"confirm that the version is 1.0.6\", function () {\r",
+							"    pm.expect(jsonData.info.version).is.eql(\"1.0.6\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"confirm that the swagger is 2.0\", function () {\r",
+							"    pm.expect(jsonData.swagger).to.eql(\"2.0\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect((jsonData.swagger)).to.include(\"2.0\");\r",
+							"\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify that the host is displayed\", function () {\r",
+							"    pm.expect(jsonData.host).to.eql(\"petstore.swagger.io\");\r",
+							"});\r",
+							"\r",
+							"pm.environment.set(\"entityVersion\", jsonData.info.version);\r",
+							"\r",
+							"pm.environment.set(\"entitySwagger\", jsonData.swagger);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
 				"url": {
 					"raw": "{{baseUrl}}/v2/swagger.json",
 					"host": [
